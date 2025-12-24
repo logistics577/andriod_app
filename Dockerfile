@@ -1,29 +1,20 @@
-FROM python:3.11-slim
+# Use official Python image
+FROM python:3.10-slim
 
-# System runtime + build deps (REQUIRED for PyAV)
-RUN apt-get update && apt-get install -y \
-    ffmpeg \
-    libavcodec-dev \
-    libavdevice-dev \
-    libavfilter-dev \
-    libavformat-dev \
-    libavutil-dev \
-    libswscale-dev \
-    libswresample-dev \
-    libopus0 \
-    libvpx-dev \
-    build-essential \
-    pkg-config \
-    && rm -rf /var/lib/apt/lists/*
-
+# Set working directory
 WORKDIR /app
 
+# Copy requirements
 COPY requirements.txt .
 
-RUN pip install --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy project files
 COPY . .
 
+# Expose (Render replaces this dynamically)
 EXPOSE 8000
-CMD ["python", "main.py"]
+
+# Run Uvicorn on Render-assigned PORT
+CMD ["sh", "-c", "python3 main.py"]
