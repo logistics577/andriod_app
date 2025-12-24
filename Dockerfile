@@ -1,8 +1,15 @@
 FROM python:3.11-slim
 
-# System runtime + build deps
+# System runtime + build deps (REQUIRED for PyAV)
 RUN apt-get update && apt-get install -y \
     ffmpeg \
+    libavcodec-dev \
+    libavdevice-dev \
+    libavfilter-dev \
+    libavformat-dev \
+    libavutil-dev \
+    libswscale-dev \
+    libswresample-dev \
     libopus0 \
     libvpx-dev \
     build-essential \
